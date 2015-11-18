@@ -25,6 +25,11 @@ Enemy.prototype.update = function (dt) {
     if (this.x >= player.x - 30 && this.x <= player.x + 30 && this.y >= player.y - 10 && this.y <= player.y + 10) {
         player.reset();
         console.log("YOU LOOSE");
+    } else {
+        if (player.y <= 50) {
+            console.log("YOU WIN");
+            player.reset();
+        }
     }
 };
 // Draw the enemy on the screen, required method for game
@@ -67,7 +72,6 @@ Player.prototype.handleInput = function (key) {
     case 'up':
         if (this.y > 0) {
             this.y -= 83;
-            if (this.y <= 50) console.log("YOU WIN");
         }
         break;
     case 'down':
