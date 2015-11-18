@@ -8,7 +8,6 @@ var Enemy = function (x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = Math.floor(Math.random() * 100) + 100;
-    this.y = Math.floor(Math.random() * 3) * 83 + 50;
 };
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -16,15 +15,17 @@ Enemy.prototype.update = function (dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    // check if  bugs collides with player
     if (this.x < 505) {
         this.x += this.speed * dt;
     } else {
         this.x = -101;
+        this.y = Math.floor(Math.random() * 3) * 83 + 58;
     }
-    if (this.x >= player.x - 20 && this.x <= player.x + 20) {
-            player.reset();
-        };
-
+    if (this.x >= player.x - 30 && this.x <= player.x + 30 && this.y >= player.y - 10 && this.y <= player.y + 10) {
+        player.reset();
+        console.log("YOU LOOSE");
+    }
 };
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function () {
@@ -32,7 +33,7 @@ Enemy.prototype.render = function () {
 };
 Enemy.prototype.reset = function () {
     this.x = -101;
-    this.y = 68;
+    this.y = 58;
 };
 // Now write your own player class
 // This class requires an update(), render() and
@@ -51,7 +52,6 @@ Player.prototype.reset = function () {
     this.x = 200;
     this.y = 400;
 };
-
 Player.prototype.handleInput = function (key) {
     switch (key) {
     case 'left':
@@ -67,8 +67,7 @@ Player.prototype.handleInput = function (key) {
     case 'up':
         if (this.y > 0) {
             this.y -= 83;
-            if (this.y == -15) console.log("YOU WIN");
-            console.log(this.y);
+            if (this.y <= 50) console.log("YOU WIN");
         }
         break;
     case 'down':
@@ -83,7 +82,7 @@ Player.prototype.handleInput = function (key) {
 var allEnemies = [];
 for (var i = 0; i < 5; i++) {
     allEnemies.push(new Enemy());
-};
+}
 // Now instantiate your objects.
 var player = new Player();
 // This listens for key presses and sends the keys to your
